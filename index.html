@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presenting Mariam Eid</title>
+    <link rel="icon" href="tab.jpg" type="image/jpeg">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;800&family=Space+Mono&family=Caveat:wght@700&display=swap');
+
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --accent: #c0392b;
+            --ui-gray: #f0f0f0;
+            --chaos-bg: #e5e0d8;
+            --marker: #e74c3c;
+            --paper-offwhite: #f9f7f2;
+            --paper-brown: #d7c4a5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { height: 100%; width: 100%; overflow: hidden; font-family: 'Inter', sans-serif; background: #000; scroll-behavior: smooth;}
+
+        /* --- THE NEXUS --- */
+        #nexus {
+            display: flex; height: 100vh; width: 100vw; position: fixed; z-index: 2000;
+            background: #000; transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        .side {
+            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease;
+            position: relative; overflow: hidden; text-align: center; padding: 40px;
+        }
+        .side.hired { background: #ffffff; color: #000; }
+        .side.inspired { background: var(--chaos-bg); color: var(--text); }
+        .side:hover { flex: 1.4; }
+        .side h2 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; text-transform: uppercase; z-index: 2; line-height: 1.1; letter-spacing: -1px; }
+
+        .nexus-divider {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 2001; width: 80px; height: 80px; display: flex; justify-content: center; align-items: center;
+            border-radius: 50%; font-family: 'Space Mono', monospace; font-weight: 800; font-size: 18px; pointer-events: none;
+            border: 2px solid #000; background: #fff; color: #000; transition: 0.4s ease;
+        }
+        #nexus:has(.hired:hover) .nexus-divider { background: #000; color: #fff; border-color: #fff; transform: translate(-50%, -50%) scale(1.1); }
+        #nexus:has(.inspired:hover) .nexus-divider { background: var(--marker); color: #fff; border-color: #fff; transform: translate(-50%, -50%) scale(1.1); }
+
+        .presenting-tag { 
+            position: absolute; top: 40px; left: 50%; transform: translateX(-50%); 
+            z-index: 2002; font-family: 'Space Mono', monospace; font-size: 11px; 
+            letter-spacing: 10px; text-transform: uppercase; color: #888; 
+            width: 100%; text-align: center; pointer-events: none;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 150px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border: 1px dashed #ccc;
+        }
+
+        /* --- ARCHITECT (PROFESSIONAL) --- */
+        .arch-nav a:hover { color: var(--accent) !important; }
+        html { scroll-padding-top: 150px; } /* This fixes the header hiding the section title */
+
+        #architect-path { display: none; background: white; min-height: 100vh; overflow-y: auto; color: #1a1a1a; }
+        .arch-nav { position: fixed; top: 0; width: 100%; padding: 25px 40px; display: flex; justify-content: space-between; align-items: center; font-family: 'Space Mono', monospace; background: rgba(255,255,255,0.98); border-bottom: 1px solid #eee; z-index: 100; }
+        .arch-section-header { font-family: 'Space Mono', monospace; font-size: 16px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 40px; color: #000; border-bottom: 2px solid var(--accent); display: inline-block; padding-bottom: 5px; }
+        .arch-content { padding: 140px 10% 60px; }
+        
+        .arch-card { border: 1px solid #eee; padding: 30px; transition: 0.3s; background: #fff; font-size: 0.95rem; display: flex; flex-direction: column; gap: 15px; }
+        .arch-card:hover { border-color: var(--accent); box-shadow: 10px 10px 0px rgba(192, 57, 43, 0.05); }
+        .badge { display: inline-block; padding: 4px 10px; font-family: 'Space Mono', monospace; font-size: 9px; background: #000; color: #fff; margin-right: 5px; }
+        .tech-tags { margin-top: auto; padding-top: 15px; border-top: 1px solid #f0f0f0; }
+
+        /* --- STORYBOARD (INSPIRED) --- */
+        .sticky-nav-note { position: fixed !important; top: 20px !important; z-index: 2000 !important; display: inline-block !important; width: auto !important; min-width: 100px; text-align: center; background-color: #f5f5dc !important; }
+
+        #storyboard-path { display: none; background: var(--chaos-bg); background-image: radial-gradient(#bcbab4 1.5px, transparent 1.5px); background-size: 40px 40px; min-height: 100vh; overflow-y: auto; color: #1a1a1a; position: relative; }
+        .story-nav { position: fixed; top: 30px; right: 50px; font-family: 'Caveat', cursive; font-size: 2rem; z-index: 1000; display: flex; align-items: center; gap: 30px; }
+        .story-nav a { text-decoration: none; color: var(--marker); transition: 0.3s; border-bottom: 3px solid transparent; }
+        .story-nav a:hover { border-bottom-color: var(--marker); }
+        .story-content { padding: 120px 10%; position: relative; z-index: 10; }
+        .story-section-header { font-family: 'Caveat', cursive; font-size: 3rem; color: var(--marker); margin-bottom: 30px; }
+        
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; width: 100%; }
+
+        /* STORYBOARD STICKY NOTES */
+        .story-card { 
+            padding: 25px; min-height: 400px; position: relative; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.03);
+            cursor: pointer; background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .story-card:nth-child(odd) { background-color: var(--paper-offwhite); transform: rotate(-1.5deg); }
+        .story-card:nth-child(even) { background-color: var(--paper-brown); transform: rotate(1.5deg); }
+
+        .story-card:hover { transform: scale(1.05) rotate(0deg) translateY(-10px) !important; z-index: 50; box-shadow: 20px 20px 40px rgba(0,0,0,0.15); }
+        
+        .story-pro-view { 
+            opacity: 1; transition: 0.4s; height: 100%; display: flex; flex-direction: column; justify-content: center; text-align: center; 
+        }
+        .story-pro-view h3 { font-family: 'Caveat', cursive; font-size: 2.2rem; color: var(--text); margin-bottom: 15px; }
+        .story-pro-view p { font-family: 'Caveat', cursive; font-size: 1.4rem; color: #555; padding: 0 10px; line-height: 1.2;}
+
+        .story-chaos-view { 
+            position: absolute; inset: 0; padding: 30px; opacity: 0; transition: 0.4s; 
+            font-family: 'Caveat', cursive; 
+            color: #1a1a1a; 
+            font-size: 1.55rem; line-height: 1.3; 
+            display: flex; flex-direction: column; justify-content: center; text-align: center;
+            background: inherit;
+        }
+
+        .story-chaos-view em {
+            font-style: normal;
+            color: var(--marker);
+            font-weight: 700;
+        }
+
+        .story-card:hover .story-pro-view { opacity: 0; transform: translateY(-20px); }
+        .story-card:hover .story-chaos-view { opacity: 1; transform: translateY(0); }
+
+        .story-card::before {
+            content: ""; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 30px; background: rgba(255,255,255,0.4);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); z-index: 10;
+        }
+
+        .draggable-note {
+            position: absolute; width: 160px; padding: 15px; box-shadow: 2px 4px 8px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05);
+            font-family: 'Caveat', cursive; font-size: 1.1rem; cursor: move; z-index: 100; transition: transform 0.2s; user-select: none;
+            background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+        }
+        .draggable-note:nth-of-type(odd) { background-color: var(--paper-offwhite); }
+        .draggable-note:nth-of-type(even) { background-color: var(--paper-brown); }
+        .draggable-note:hover { transform: scale(1.15) rotate(0deg); z-index: 101; border-color: var(--marker); }
+
+        .active { display: block !important; }
+        
+        /* UPDATED COMPACT BUTTON EFFECTS */
+        .btn-invest-arch { transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1); text-transform: uppercase; letter-spacing: 1px; }
+        .btn-invest-arch:hover { background: #fff; color: #000 !important; transform: translateY(-3px); border-color: #fff; }
+        
+        .btn-invest-story { transition: all 0.3s ease; }
+        .btn-invest-story:hover { transform: rotate(-2deg) scale(1.05); text-decoration: underline; text-decoration-style: wavy; }
+    
+        /* --- INVEST PAGE OVERLAY --- */
+        #invest-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #fff;
+            z-index: 5000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        #invest-overlay.active { display: flex; }
+
+        .invest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            justify-content: center;
+            justify-items: center;
+            gap: 25px;
+            max-width: 900px;
+            width: 100%;
+            margin: 40px auto 0 auto;
+        }
+
+        /* Individual Option Cards */
+        .invest-option {
+            border: 1px solid #f0f0f0;
+            padding: 30px 20px;
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+        }
+
+        .invest-option:hover {
+            border-color: var(--accent);
+            background: #fff;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+        }
+
+        
+        .invest-option-static {
+            border: 1px solid #f0f0f0;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+            cursor: default;
+        }
+        .invest-icon-static {
+            width: 40px; height: 40px;
+            margin-bottom: 15px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        .invest-option-static h4 {
+            font-family: 'Space Mono', monospace;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        .invest-option-static p {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        /* Emoji Icons */
+        .invest-icon {
+            width: 40px; height: 40px;
+            margin-bottom: 15px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent);
+            transition: 0.3s;
+        }
+
+        .invest-option:hover .invest-icon {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* Typography & Buttons */
+        .invest-option h4 {
+            font-family: 'Space Mono', monospace;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .invest-option p {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .invest-action-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            border: 1px solid #000;
+        }
+
+        .invest-action-btn:hover {
+            background: transparent;
+            color: #000;
+        }
+
+        .invest-return-btn {
+            margin-top: 40px;
+            padding: 10px 25px;
+            border: 2px solid #000;
+            background: transparent;
+            color: #000;
+            font-family: 'Space Mono', monospace;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .invest-return-btn:hover {
+            background: #000;
+            color: #fff;
+        }
+
+
+        /* --- CONTACT & COMING SOON OVERLAYS --- */
+        #contact-overlay, #coming-soon-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #fff;
+            z-index: 5000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+            text-align: center;
+        }
+        #contact-overlay.active, #coming-soon-overlay.active { display: flex; }
+
+        .pulsing-loader {
+            width: 50px;
+            height: 50px;
+            background-color: #000;
+            border-radius: 50%;
+            margin: 0 auto 30px auto;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.5; }
+        }
+        
+        .project-img-wrapper {
+            display: block;
+            width: 100%;
+            height: 150px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid #ccc;
+        }
+        .project-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+            display: block;
+        }
+        .project-img:hover {
+            opacity: 0.8;
+        }
+        
+        .draggable-pin {
+            position: absolute; font-size: 2.5rem; cursor: move; z-index: 100; transition: transform 0.2s; user-select: none;
+        }
+        .draggable-pin:hover { transform: scale(1.2); z-index: 101; }
+
+        .pencil-nav {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            text-decoration: none;
+            color: #444;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+        .pencil-nav:hover {
+            color: var(--accent) !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="nexus">
+        <div class="presenting-tag">Presenting <strong>MARIAM EID</strong></div>
+        <div class="side hired" onclick="showPath('architect')"><h2>Are you<br>to get me hired?</h2></div>
+        <div class="side inspired" onclick="showPath('storyboard')"><h2>Are you<br>to get inspired?</h2></div>
+        <div class="nexus-divider">OR</div>
+    </div>
+
+    <!-- ARCHITECT (PROFESSIONAL) -->
+    <div id="architect-path">
+        <nav class="arch-nav">
+            <div style="display: flex; gap: 20px; font-size: 11px;">
+                <a href="#motives" style="text-decoration:none; color:#000; font-weight:800; transition: 0.3s;">01 MOTIVE</a>
+                <a href="#data" style="text-decoration:none; color:#000; font-weight:800; transition: 0.3s;">02 PROJECTS</a>
+                <a href="#ability" style="text-decoration:none; color:#000; font-weight:800; transition: 0.3s;">03 SKILLS</a>
+                <a href="#network" style="text-decoration:none; color:#000; font-weight:800; transition: 0.3s;">04 NETWORK</a>
+                <a href="#invest" style="text-decoration:none; color:#000; font-weight:800; transition: 0.3s;">05 INVEST</a>
+            </div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <a href="#" onclick="openContactPage(event)" style="text-decoration:none; color:#000; font-family:'Space Mono'; font-weight:800; text-transform: uppercase;">Contact</a>
+                <a href="#" onclick="goBack()" style="text-decoration:none; color:#000; font-family:'Space Mono'; font-weight:800; border: 2px solid #000; padding: 5px 15px;">Return</a>
+            </div>
+        </nav>
+
+        <div class="arch-content">
+            <section style="display: flex; gap: 50px; align-items: center; margin-bottom: 100px;">
+                <div style="width: 220px; height: 220px; border: 1px solid #ddd; flex-shrink: 0; overflow: hidden;"><img src="pic.jpg" alt="Mariam Eid Headshot" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                <div>
+                    <h1 style="font-size: 4rem; font-weight: 900; letter-spacing: -2px; color: #000000;">MARIAM EID</h1>
+                    <p style="font-family: 'Space Mono'; color: var(--accent); margin: 10px 0; font-size: 1rem;">Computer Science Student @ FCAI Cairo University | Game Developer: C# & Unity</p>
+                </div>
+            </section>
+
+            <div id="motives" class="arch-section-header">01 MOTIVE AND DRIVES</div>
+            <p style="font-size: 1.25rem; line-height: 1.6; max-width: 900px; margin-bottom: 40px; font-weight: 300;">
+                I’m a Computer Science student with a deep-rooted passion for turning lines of code into memorable experiences. While my toolkit is built on C# and Unity, my goal is always to look beyond the screen—focusing on how a game feels and how it connects with the person playing it. I love the logic of programming just as much as the creativity of game design, and I’m always looking for new ways to merge the two into something meaningful.
+            </p>
+
+            <div id="data" class="arch-section-header" style="display:block; margin-top: 60px;">02 PROJECTS REPOSITORY</div>
+            <div class="grid-container">
+                <div class="arch-card">
+                    <a href="https://weirdothen.itch.io/noticed" target="_blank" class="project-img-wrapper"><div class="project-img-wrapper"><img src="noticed.jpg" alt="NOTICED" class="project-img"></div></a>
+                    <div class="badge">SOLO JAM // 3RD PLACE</div>
+                    <h3>NOTICED</h3>
+                    <p>Developed for the FCAI GDC "Seen vs Unseen" theme. Focused on rapid prototyping and the full development lifecycle solo. High emphasis on UI/UX polish through Post-Processing and the Unity Canvas system.</p>
+                    <div class="tech-tags">
+                        <span class="badge">C#</span><span class="badge">Unity</span><span class="badge">UI/UX</span>
+                    </div>
+                </div>
+                <div class="arch-card">
+                    <a href="https://mohamed20047.itch.io/stable-build" target="_blank" class="project-img-wrapper"><div class="project-img-wrapper"><img src="stable.jpg" alt="Stable Build 02" class="project-img"></div></a>
+                    <div class="badge">TEAM // 4TH PLACE & 1ST MOST LIKED</div>
+                    <h3>Stable Build 02</h3>
+                    <p>Developed in a 48-hour sprint. Utilized Git/GitHub for version control. Implemented core gameplay systems and Voice Over, applying UML diagrams and Scriptable Objects for a modular, scalable codebase.</p>
+                    <div class="tech-tags">
+                        <span class="badge">Git</span><span class="badge">Scriptable Objects</span><span class="badge">UML</span>
+                    </div>
+                </div>
+                <div class="arch-card">
+                    <a href="https://weirdothen.itch.io/kitchen-chaos" target="_blank" class="project-img-wrapper"><div class="project-img-wrapper"><img src="KC.jpg" alt="Kitchen Chaos" class="project-img"></div></a>
+                    <div class="badge">ARCHITECTURE STUDY</div>
+                    <h3>Kitchen Chaos</h3>
+                    <p>A deep dive into professional software architecture. Implemented the Singleton Pattern, State Machines, and Event-driven programming. Focused on refactoring prototypes into modular systems.</p>
+                    <div class="tech-tags">
+                        <span class="badge">Design Patterns</span><span class="badge">Refactoring</span><span class="badge">Cinemachine</span>
+                    </div>
+                </div>
+                <div class="arch-card">
+                    <a href="https://weirdothen.itch.io/oneiros2" target="_blank" class="project-img-wrapper"><div class="project-img-wrapper"><img src="oneiros.jpg" alt="Oneiros" class="project-img"></div></a>
+                    <div class="badge">GRAD PROJECT // 2ND PEER RANK</div>
+                    <h3>Oneiros</h3>
+                    <p>My debut project in Unity. Focused on the fundamental Game Loop, level design, and narrative-driven mechanics within a 10-day production deadline.</p>
+                    <div class="tech-tags">
+                        <span class="badge">Unity</span><span class="badge">Game Loop</span><span class="badge">Level Design</span>
+                    </div>
+                </div>
+                <div class="arch-card">
+                    <a href="https://weirdothen.itch.io/tic-tac-toe" target="_blank" class="project-img-wrapper"><div class="project-img-wrapper"><img src="xo.jpg" alt="Multiplayer XO" class="project-img"></div></a>
+                    <div class="badge">NETWORKING</div>
+                    <h3>Multiplayer XO</h3>
+                    <p>Explored Unity Netcode for GameObjects. Implemented client-server architecture, state synchronization, and real-time connectivity logic.</p>
+                    <div class="tech-tags">
+                        <span class="badge">Netcode</span><span class="badge">Multiplayer</span><span class="badge">Networking</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 80px;">
+                <div>
+                    <div id="ability" class="arch-section-header">03 SKILLS</div>
+                    <div class="arch-card" style="margin-bottom:15px;"><strong>Architectural Logic (C# & Unity)</strong><br><small style="color:var(--accent); font-family:'Space Mono';">Focused on mastering Object-Oriented patterns and clean, scalable code architecture to build robust game systems.</small></div>
+                    <div class="arch-card" style="margin-bottom:15px;"><strong>World Building (Game Design)</strong><br><small style="color:var(--accent); font-family:'Space Mono';">Specialist in mechanics and player engagement strategies, backed by a CalArts Game Design.</small></div>
+                    <div class="arch-card" style="margin-bottom:15px;"><strong>User-Centric Design (Product Design)</strong><br><small style="color:var(--accent); font-family:'Space Mono';">egFWD UX Graduate proficient in Figma & Adobe XD. Ensuring every project is as intuitive and user-friendly as it is creative.</small></div>
+                    <div class="arch-card" style="margin-bottom:15px;"><strong>Global Communication (C1 English)</strong><br><small style="color:var(--accent); font-family:'Space Mono';">Advanced C1 fluency.</small></div>
+                </div>
+                <div>
+                    <div id="network" class="arch-section-header">04 THE NETWORK</div>
+                    <div class="arch-card" style="height: 100%;">
+                        <h3>Role: PR member // FCAI Game Dev Club</h3>
+                        <p><strong>Skill:</strong> Strategic Networking & Branding & Pitching</p>
+                        <p>Building bridges between student talent and the gaming industry.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPACT & PROFESSIONAL INVEST SECTION -->
+            <section id="invest" style="padding: 60px 40px; background: #000; color: #fff; margin-top: 80px; text-align: left; max-width: 900px; border: 1px solid #333;">
+                <div class="arch-section-header" style="margin-bottom: 20px; color: #fff; border-bottom-color: var(--accent);">05 INVEST</div>
+                <div style="display: flex; gap: 40px; align-items: flex-start;">
+                    <div style="flex: 2;">
+                        <p style="font-family: 'Space Mono'; font-weight: 800; font-size: 1.1rem; margin-bottom: 15px;">Building the future requires more than just code—it requires mentorship and support.</p>
+                        <p style="font-size: 0.95rem; line-height: 1.6; color: #ccc;">
+                            The journey is just beginning, and I am actively seeking the insights and resources that lie beyond academic study. 
+                            Whether through a 30-minute discussion, professional critique, or a resource recommendation—your time, experience, or support in fueling my current project builds is the greatest investment I could ask for.
+                        </p>
+                        <p style="margin-top: 15px; font-weight: 800; color: var(--accent); font-family: 'Space Mono';">I am prepared for the next level. Are you ready to collaborate?</p>
+                    </div>
+                    <div style="flex: 1; text-align: center; border-left: 1px solid #333; padding-left: 40px;">
+                        <p style="font-size: 0.8rem; font-family: 'Space Mono'; color: #666; margin-bottom: 20px; text-transform: uppercase;">Direct Channel</p>
+                        <a href="#" onclick="openInvestPage(event)" class="btn-invest-arch" style="display: inline-block; padding: 12px 25px; text-decoration: none; color: #fff; border: 1px solid #fff; font-family: 'Space Mono'; font-weight: 800; font-size: 0.9rem;">INVEST IN THE JOURNEY</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- STORYBOARD (INSPIRED) -->
+    <div id="storyboard-path">
+        <!-- New Yellow Notes -->
+        <!-- New Yellow Notes -->
+        <div class="draggable-note" style="top: 200px; right: 50px; transform: rotate(5deg); background-color: #ffeaa7; font-weight: bold; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; border-radius: 2px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">Stay Curious.</div>
+        <div class="draggable-note" style="bottom: 250px; right: 100px; transform: rotate(-3deg); background-color: #fab1a0; font-weight: bold; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; border-radius: 2px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">Iterate daily.</div>
+        
+        
+        <!-- Draggable Pins -->
+        <div class="draggable-pin" style="top: 250px; right: 4%;">📌</div>
+        <div class="draggable-pin" style="top: 800px; left: 4%;">📌</div>
+        <div class="draggable-pin" style="top: 1400px; right: 4%;">📌</div>
+        
+        <!-- Draggable Nav Bookmarks -->
+        <div style="position: fixed; top: 25px; left: 50%; transform: translateX(-50%); z-index: 2000; display: flex; gap: 40px; width: auto;">
+            <a href="#s-why" class="pencil-nav">01 Why</a>
+            <a href="#s-quest" class="pencil-nav">02 Quest</a>
+            <a href="#s-ability" class="pencil-nav">03 Skills</a>
+            <a href="#s-network" class="pencil-nav">04 Network</a>
+            <a href="#s-invest" class="pencil-nav">05 Invest</a>
+        </div>
+
+        <div class="draggable-note" style="top: 150px; left: 50px; transform: rotate(-5deg); background-color: #81ecec; font-weight: bold; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; border-radius: 2px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">Keep dreaming.</div>
+        <div class="draggable-note" style="bottom: 120px; left: 180px; transform: rotate(-10deg); background-color: #a29bfe; font-weight: bold; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; border-radius: 2px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">C# Adrenaline</div>
+
+        <nav class="story-nav">
+            <a href="#" onclick="openContactPage(event)">Say Hi!</a>
+            <a href="#" onclick="goBack()">Return</a>
+        </nav>
+
+        <div class="story-content">
+            <header style="margin-bottom: 80px;">
+                <h1 style="font-family: 'Caveat'; font-size: 4.5rem; color: var(--marker);">Hey, I'm Mariam.</h1>
+                <p style="font-family: 'Space Mono'; opacity: 0.5; font-size: 0.85rem;">Computer Science Student @ FCAI Cairo University | Making games with Unity and C# | 18 years old</p>
+            </header>
+
+            <div id="s-why" class="story-section-header">01 THE "WHY"</div>
+            <div style="font-family: 'Caveat'; font-size: 2.1rem; line-height: 1.2; max-width: 800px; color: #444; margin-bottom: 60px;">
+                What is the value of a thought if it isn’t shared? I believe the true power of game development lies in the ability to transfer a specific vibe or a fleeting emotion directly to another person. I started this journey to build experiences that act as a bridge between my imagination and the player’s reality. Seeing someone find genuine joy or connection in what I’ve created is what turns my passion into a lifelong commitment.
+            </div>
+
+            <div id="s-quest" class="story-section-header">02 QUEST LOG</div>
+            <div class="grid-container">
+                <!-- NOTICED -->
+                <div class="story-card" onclick="window.open('https://weirdothen.itch.io/noticed', '_blank')">
+                    <div class="story-pro-view">
+                        <div class="project-img-wrapper"><img src="noticed.jpg" alt="NOTICED" class="project-img"></div>
+                        <h3>NOTICED</h3>
+                        <p>3rd Place! My solo survival experiment. A journey into the seen and unseen.</p>
+                    </div>
+                    <div class="story-chaos-view"><p>I faced the <em>ghost of FOMO</em> and won. After two days of mental paralysis, I pushed myself to see if I could build a <em>bug-free experience solo</em>. This project became a canvas for testing my resilience and speed, proving that my <em>inner dev</em> is a force to be reckoned with. It's more than just a game; it's a testament to <em>solo grit</em>.</p></div>
+                </div>
+                <!-- STABLE BUILD -->
+                <div class="story-card" onclick="window.open('https://mohamed20047.itch.io/stable-build', '_blank')">
+                    <div class="story-pro-view">
+                        <div class="project-img-wrapper"><img src="stable.jpg" alt="Stable Build 02" class="project-img"></div>
+                        <h3>Stable Build 02</h3>
+                        <p>48 hours of chaos. 1st Place Most Liked by the community!</p>
+                    </div>
+                    <div class="story-chaos-view"><p>My first time working with a <em>professional team</em> in a high-pressure environment. I went from being nervous to being absolutely blown away by the power of <em>UML diagrams</em> and modular <em>Scriptable Objects</em>. I handled both the <em>coding architecture</em> and the <em>voice-over performance</em>—teaching me that great risks lead to the most <em>rewarding growth</em>.</p></div>
+                </div>
+                <!-- KITCHEN CHAOS -->
+                <div class="story-card" onclick="window.open('https://weirdothen.itch.io/kitchen-chaos', '_blank')">
+                    <div class="story-pro-view">
+                        <div class="project-img-wrapper"><img src="KC.jpg" alt="Kitchen Chaos" class="project-img"></div>
+                        <h3>Kitchen Chaos</h3>
+                        <p>From "just working" to "working professionally." The architectural leap.</p>
+                    </div>
+                    <div class="story-chaos-view"><p>This project was my ultimate <em>technical level-up</em>. I stopped focusing on just the 'output' and started caring deeply about the <em>infrastructure</em>. Implementing <em>State Machines</em> to handle burning food logic made me realize that even simple interactions require a <em>beautiful, clean architecture</em>. I finally felt like a <em>software architect</em>.</p></div>
+                </div>
+                <!-- ONEIROS -->
+                <div class="story-card" onclick="window.open('https://weirdothen.itch.io/oneiros2', '_blank')">
+                    <div class="story-pro-view">
+                        <div class="project-img-wrapper"><img src="oneiros.jpg" alt="Oneiros" class="project-img"></div>
+                        <h3>Oneiros</h3>
+                        <p>My very first game! Born from sleepless nights and curious dreams.</p>
+                    </div>
+                    <div class="story-chaos-view"><p>Inspired by the surreal <em>science of dreams</em>, Oneiros was the spark that started it all. This project transformed me from a passive learner into an <em>active creator</em> who wanted to share knowledge with the world. Ranked <em>2nd by my peers</em>, it taught me that a <em>compelling narrative</em> can create something truly <em>magical from scratch</em>.</p></div>
+                </div>
+                <!-- MULTIPLAYER XO -->
+                <div class="story-card" onclick="window.open('https://weirdothen.itch.io/tic-tac-toe', '_blank')">
+                    <div class="story-pro-view">
+                        <div class="project-img-wrapper"><img src="xo.jpg" alt="Multiplayer XO" class="project-img"></div>
+                        <h3>Multiplayer XO</h3>
+                        <p>Connecting worlds. Making screens talk to each other in real-time.</p>
+                    </div>
+                    <div class="story-chaos-view"><p>This was my <em>"Hello World"</em> to the complex realm of networking. Navigating <em>client-server synchronization</em> felt like learning a new language. There is no feeling quite like the <em>adrenaline rush</em> of seeing that first synchronized "X" appear <em>instantly on two different screens</em>! It opened my eyes to <em>social potential</em>.</p></div>
+                </div>
+                <!-- VISCERAL -->
+                <div class="story-card">
+                    <div class="story-pro-view">
+                        <div style="width: 100%; height: 150px; background: #111; color: #fff; font-family: 'Space Mono', monospace; font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; border: 1px solid #333; letter-spacing: 2px;">COMING SOON</div>
+                        <h3>Visceral</h3>
+                        <p>Transcendental Idealism. Exploring the world beyond simple adjectives.</p>
+                    </div>
+                    <div class="story-chaos-view"><p>Visceral is an ongoing <em>exploration of identity</em> and perception. I am interested in how we perceive the world <em>beyond mere appearances</em>. This project is a deep dive into shifting states and the <em>confusion of the 'beyond,'</em> aiming to create an experience that feels <em>raw and transcendental</em>. My most ambitious effort.</p></div>
+                </div>
+            </div>
+
+            <div id="s-ability" class="story-section-header" style="margin-top: 80px;">03 ABILITY TREE</div>
+            <div style="display: flex; flex-direction: column; gap: 30px; max-width: 900px;">
+                <div style="padding: 20px; border-left: 4px solid var(--marker); background: rgba(0,0,0,0.02);">
+                    <h3 style="font-family: 'Caveat'; font-size: 2.2rem; color: var(--text); margin-bottom: 5px;">The Blueprint (C# & Unity)</h3>
+                    <p style="font-family: 'Caveat'; font-size: 1.25rem; color: #444; line-height: 1.2;">I chose to focus on architecture because I believe a game is only as good as its bones. I’m driven by building "intelligent" systems and clean, organized code.</p>
+                </div>
+                <div style="padding: 20px; border-left: 4px solid var(--marker); background: rgba(0,0,0,0.02);">
+                    <h3 style="font-family: 'Caveat'; font-size: 2.2rem; color: var(--text); margin-bottom: 5px;">The Vision (Game Design)</h3>
+                    <p style="font-family: 'Caveat'; font-size: 1.25rem; color: #444; line-height: 1.2;">I went to CalArts to turn "fun" into a disciplined craft. I study the science of engagement to know exactly which levers to pull to make a player feel the story.</p>
+                </div>
+                <div style="padding: 20px; border-left: 4px solid var(--marker); background: rgba(0,0,0,0.02);">
+                    <h3 style="font-family: 'Caveat'; font-size: 2.2rem; color: var(--text); margin-bottom: 5px;">The Empathy (Product Design)</h3>
+                    <p style="font-family: 'Caveat'; font-size: 1.25rem; color: #444; line-height: 1.2;">Technical skill fails if the experience is confusing. I joined egFWD to ensure my builds are always accessible, beautiful, and player-focused.</p>
+                </div>
+                <div style="padding: 20px; border-left: 4px solid var(--marker); background: rgba(0,0,0,0.02);">
+                    <h3 style="font-family: 'Caveat'; font-size: 2.2rem; color: var(--text); margin-bottom: 5px;">The Universal Key (English Fluency)</h3>
+                    <p style="font-family: 'Caveat'; font-size: 1.25rem; color: #444; line-height: 1.2;">Why spend time as an instructor at CAC Academy? Because it was my masterclass in communication. My C1 fluency is my most important research tool—it allows me to pull technical knowledge from a global pool of resources, far beyond any local limitations. It’s the skill that ensures my technical logic is always clear, accessible, and ready for international collaboration.</p>
+                </div>
+            </div>
+
+            <div id="s-network" class="story-section-header" style="margin-top: 80px; text-align: center;">04 THE NETWORK</div>
+            <div style="background: #fdfbf7; padding: 40px; border: 1px solid #ddd; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); transform: rotate(1deg); position: relative; max-width: 850px; margin: 0 auto 60px auto;">
+                <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); width: 120px; height: 30px; background: rgba(255,255,255,0.6); box-shadow: 0 2px 4px rgba(0,0,0,0.05);"></div>
+                <h3 style="font-family: 'Caveat'; font-size: 2.5rem; color: var(--marker); margin-bottom: 15px;">Expanding the Map</h3>
+                <p style="font-family: 'Caveat'; font-size: 1.8rem; color: #333; line-height: 1.2;">Joining the FCAI Game Dev Club was my "Side Quest" that changed everything. It wasn't just about PR; it was about opening the map. It gave me the seat at the table to talk to industry leaders, meet the people I admired, and learn how to pitch a vision. It turned my solitary code into a shared conversation.</p>
+            </div>
+
+            <!-- COMPACT STORYBOARD INVEST SECTION -->
+            <section id="s-invest" style="text-align: center; padding: 60px 40px; border: 2px dashed var(--marker); background: rgba(231, 76, 60, 0.05); margin-top: 80px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                <div class="story-section-header" style="font-size: 2.5rem;">05 INVEST</div>
+                <div style="font-family: 'Caveat'; font-size: 1.8rem; color: #1a1a1a; line-height: 1.3;">
+                    <p>If you have the wisdom, I’ve got the hunger.</p>
+                    <p style="background: yellow; display: inline;">The journey is just getting started, and I’m looking for the <u>"Experience Points" you can’t find in a textbook.</u></p>
+                    <p style="margin: 20px 0;">Whether it’s a 30-minute chat, a brutal critique, or a resource you swear by—<span style="color: var(--marker); font-weight: 800;">your time, a book you love, or even a small donation</span>—is the greatest investment I could ask for.</p>
+                    <p style="color: var(--marker); font-weight: 800; font-size: 2.2rem;">I’m literally waiting for that one spark. Are you in?</p>
+                </div>
+                <a href="#" onclick="openInvestPage(event)" class="btn-invest-story" style="font-family: 'Caveat'; font-size: 2.5rem; color: var(--marker); text-decoration: none; border-bottom: 3px dashed var(--marker); padding-bottom: 5px; display: inline-block; margin-top: 15px;">INVEST IN THE JOURNEY</a>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function showPath(path) {
+            document.getElementById('nexus').style.transform = 'translateY(-100%)';
+            document.body.style.overflow = 'auto';
+            if (path === 'architect') { document.getElementById('architect-path').classList.add('active'); }
+            else { document.getElementById('storyboard-path').classList.add('active'); }
+        }
+        function goBack() {
+            document.getElementById('nexus').style.transform = 'translateY(0)';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                document.getElementById('architect-path').classList.remove('active');
+                document.getElementById('storyboard-path').classList.remove('active');
+            }, 800);
+        }
+        const draggables = document.querySelectorAll('.draggable-note, .draggable-pin');
+        draggables.forEach(note => {
+            let isDragging = false;
+            let offset = { x: 0, y: 0 };
+            note.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                offset.x = e.clientX - note.offsetLeft;
+                offset.y = e.clientY - note.offsetTop;
+                note.style.zIndex = 1000;
+            });
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                note.style.left = (e.clientX - offset.x) + 'px';
+                note.style.top = (e.clientY - offset.y) + 'px';
+            });
+            document.addEventListener('mouseup', () => { isDragging = false; });
+        });
+    
+        function openInvestPage(e) {
+            if(e) e.preventDefault();
+            document.getElementById('invest-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeInvestPage() {
+            document.getElementById('invest-overlay').classList.remove('active');
+            // Re-enable scroll only if a path was already active
+            if(document.getElementById('nexus').style.transform === 'translateY(-100%)' && !document.getElementById('contact-overlay').classList.contains('active') && !document.getElementById('coming-soon-overlay').classList.contains('active')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+
+        function openContactPage(e) {
+            if(e) e.preventDefault();
+            document.getElementById('contact-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeContactPage() {
+            document.getElementById('contact-overlay').classList.remove('active');
+            if(document.getElementById('nexus').style.transform === 'translateY(-100%)' && !document.getElementById('invest-overlay').classList.contains('active') && !document.getElementById('coming-soon-overlay').classList.contains('active')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+        function openComingSoonPage(e) {
+            if(e) e.preventDefault();
+            document.getElementById('coming-soon-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeComingSoonPage() {
+            document.getElementById('coming-soon-overlay').classList.remove('active');
+            if(document.getElementById('nexus').style.transform === 'translateY(-100%)' && !document.getElementById('invest-overlay').classList.contains('active') && !document.getElementById('contact-overlay').classList.contains('active')) {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+    </script>
+
+
+    <!-- INVEST OVERLAY SECTION -->
+    <div id="invest-overlay">
+        <div style="max-width: 600px; margin: 0 auto 20px auto;">
+            <div style="font-size: 3rem; margin-bottom: 10px;">❤️</div>
+            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Support the Journey</h2>
+            <p style="font-size: 0.95rem; color: #666;">Your support fuels the code and the creativity behind every project. Thank you for being part of the journey.</p>
+        </div>
+
+        <div class="invest-grid">
+            <div class="invest-option">
+                <div class="invest-icon">☕</div>
+                <h4>Coffee Talk</h4>
+                <p>Provide feedback and share a quick chat.</p>
+                <a href="https://www.linkedin.com/in/mariam-eid-b09a351b0/" target="_blank" class="invest-action-btn">Connect</a>
+            </div>
+
+            <div class="invest-option">
+                <div class="invest-icon">🤝</div>
+                <h4>For My Help</h4>
+                <p>Inquire about hiring me for your projects.</p>
+                <a href="#" onclick="openContactPage(event)" class="invest-action-btn">Hire Me</a>
+            </div>
+
+            <div class="invest-option">
+                <div class="invest-icon">📚</div>
+                <h4>Resources</h4>
+                <p>Recommend or provide access to growth tools.</p>
+                <a href="#" onclick="openContactPage(event)" class="invest-action-btn">Share</a>
+            </div>
+
+            <div class="invest-option">
+                <div class="invest-icon">⚡</div>
+                <h4>Fuel Builds</h4>
+                <p>Donate to support my learning and projects.</p>
+                <a href="#" onclick="openComingSoonPage(event)" class="invest-action-btn">Fuel Build</a>
+            </div>
+        </div>
+
+        <button class="invest-return-btn" onclick="closeInvestPage()">Return to Portfolio</button>
+    </div>
+
+    <!-- CONTACT OVERLAY SECTION -->
+    <div id="contact-overlay">
+        <div style="max-width: 600px; margin: 0 auto 20px auto;">
+            <div style="font-size: 3rem; margin-bottom: 10px;">🌐</div>
+            <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 10px;">Let's Connect</h2>
+            <p style="font-size: 0.95rem; color: #666;">Reach out through any of these channels. I'm always open to new opportunities and conversations.</p>
+        </div>
+
+        <div class="invest-grid">
+            <div class="invest-option-static">
+                <div class="invest-icon-static">✉️</div>
+                <h4>Email</h4>
+                <p>Drop me a message.</p>
+                <div style="font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 800; padding: 10px 15px; background: #eee; border-radius: 4px; color: #333; word-break: break-all;">emariemid@gmail.com</div>
+            </div>
+
+            <div class="invest-option">
+                <div class="invest-icon">🐙</div>
+                <h4>GitHub</h4>
+                <p>Check out my code.</p>
+                <a href="https://github.com/Weirdothen" target="_blank" class="invest-action-btn">GitHub</a>
+            </div>
+
+            <div class="invest-option">
+                <div class="invest-icon">💼</div>
+                <h4>LinkedIn</h4>
+                <p>Professional network.</p>
+                <a href="https://www.linkedin.com/in/mariam-eid-b09a351b0/" target="_blank" class="invest-action-btn">LinkedIn</a>
+            </div>
+
+            <div class="invest-option">
+                <div class="invest-icon">📄</div>
+                <h4>CV</h4>
+                <p>View my resume.</p>
+                <a href="https://drive.google.com/drive/folders/1qeIO4Hx4gud0FXrJgFoey_IgZ4RkKeYl?usp=sharing" target="_blank" class="invest-action-btn">View CV</a>
+            </div>
+        </div>
+
+        <button class="invest-return-btn" onclick="closeContactPage()">Return</button>
+    </div>
+
+    <!-- COMING SOON OVERLAY -->
+    <div id="coming-soon-overlay">
+        <div class="coming-soon-content">
+            <div class="pulsing-loader"></div>
+            <h2 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 15px; letter-spacing: 2px; text-transform: uppercase;">Coming Soon</h2>
+            <p style="font-size: 1rem; color: #888; max-width: 400px; margin: 0 auto 40px auto; line-height: 1.5;">This feature is currently under construction. Stay tuned for future updates.</p>
+            <button class="invest-return-btn" onclick="closeComingSoonPage()">Return</button>
+        </div>
+    </div>
+
+</body>
+</html>
